@@ -9,7 +9,7 @@
 
 // IMPORTANT: We'll set this in Step H (Connect front-end to Apps Script)
 // Example format: "https://script.google.com/macros/s/XXXXXXXX/exec"
-const APPS_SCRIPT_WEB_APP_URL = "PASTE_YOUR_WEB_APP_URL_HERE";
+const APPS_SCRIPT_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwubf0vJtjVTAhkqTIiJStyDIVPXd5gCyyYyhStxFIOw7-Lfk_5X31CcIu3I3lxVyRSLA/exec";
 
 const el = {
   redditUrl: document.getElementById("redditUrl"),
