@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Reddit Comment Analyzer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Reddit Comment Analyzer</h1>
+      <p class="subhead">
+        Paste a Reddit post URL, write one analysis prompt, and generate a brand-new Google Sheet.
+      </p>
+      <p class="warning">
+        ⚠️ Avoid massive threads: Google Apps Script has execution time limits and can time out on huge posts.
+      </p>
+    </header>
+
+    <section class="card">
+      <label class="label" for="redditUrl">Reddit Post URL</label>
+      <input
+        id="redditUrl"
+        class="input"
+        type="url"
+        placeholder="https://www.reddit.com/r/.../comments/POST_ID/..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+
+      <label class="label" for="prompt">Analysis Prompt</label>
+      <textarea
+        id="prompt"
+        class="textarea"
+        rows="6"
+        placeholder="Example: Summarize the main arguments, list recurring themes, and flag any high-signal comments."
+        autocomplete="off"
+        spellcheck="true"
+      ></textarea>
+
+      <div class="row">
+        <button id="runBtn" class="btn primary">Run Analysis</button>
+        <button id="openBtn" class="btn" disabled>Open Spreadsheet</button>
+      </div>
+
+      <div class="statusBlock">
+        <div class="statusTitle">Status</div>
+        <div id="status" class="statusText">Idle. Enter a URL + prompt, then click Run.</div>
+        <pre id="debug" class="debug" aria-live="polite"></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        This tool uses the official Reddit API via your Google Apps Script backend. No browser scraping.
+      </p>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
