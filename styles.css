@@ -1,0 +1,141 @@
+/* Simple, readable styling. No frameworks. */
+
+:root {
+  --bg: #0b0f17;
+  --card: #121a27;
+  --text: #e8eefc;
+  --muted: #a7b3cc;
+  --border: rgba(255, 255, 255, 0.12);
+  --danger: #ff6b6b;
+  --ok: #51cf66;
+  --accent: #4dabf7;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 16px 48px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.subhead {
+  margin: 0 0 10px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.warning {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.card {
+  margin-top: 18px;
+  padding: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.label {
+  display: block;
+  margin: 14px 0 8px;
+  font-weight: 600;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  outline: none;
+}
+
+.input::placeholder, .textarea::placeholder {
+  color: rgba(231, 238, 252, 0.45);
+}
+
+.input:focus, .textarea:focus {
+  border-color: rgba(77, 171, 247, 0.6);
+  box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.15);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.btn.primary {
+  border-color: rgba(77, 171, 247, 0.6);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.statusBlock {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.statusTitle {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.statusText {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.debug {
+  margin: 10px 0 0;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px dashed var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  color: rgba(232, 238, 252, 0.9);
+  overflow: auto;
+  min-height: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.footer {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
