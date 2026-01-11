@@ -1,3 +1,5 @@
+console.log("APP VERSION: v2");
+
 /*******************************************************
  * Front-end controller (vanilla JS)
  *
