@@ -82,23 +82,77 @@ async function onRunClick_() {
     return;
   }
 
-  // We won’t actually call Apps Script until Step H
   if (APPS_SCRIPT_WEB_APP_URL === "PASTE_YOUR_WEB_APP_URL_HERE") {
-    setStatus_("Not connected yet. Step H will paste your Apps Script Web App URL into app.js.");
+    setStatus_("Not connected yet. Paste your Apps Script Web App URL into app.js.");
     return;
   }
 
-  // In Step H we’ll do:
-  // 1) setStatus_("Fetching comments…")
-  // 2) POST to Apps Script
-  // 3) setStatus_("Writing spreadsheet…")
-  // 4) Done + enable Open Spreadsheet
+  // Disable run button during the request (prevents double-click spam)
+  el.runBtn.disabled = true;
 
-  setStatus_("Connected, but wiring is done in Step H. (URL is set.)");
-  setDebug_({
-    note: "In Step H we will POST to your Web App URL with { redditUrl, prompt }",
-    webAppUrl: APPS_SCRIPT_WEB_APP_URL,
-  });
+  try {
+    // 1) User-facing status: Fetching
+    setStatus_("Fetching comments from Reddit…");
+
+    // Build request payload
+    const payload = {
+      redditUrl: el.redditUrl.value.trim(),
+      prompt: el.prompt.value.trim(),
+    };
+
+    // 2) Call Apps Script Web App
+    const resp = await fetch(APPS_SCRIPT_WEB_APP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      // Apps Script doPost can be picky about CORS + content-type.
+      // Sending as "text/plain" with JSON string is a reliable pattern.
+      body: JSON.stringify(payload),
+    });
+
+    // If we can’t even talk to the server, stop here
+    if (!resp.ok) {
+      throw new Error(`Network error: HTTP ${resp.status} ${resp.statusText}`);
+    }
+
+    // 3) Read JSON
+    const data = await resp.json();
+    setDebug_(data);
+
+    // 4) Interpret Apps Script response
+    if (!data.ok) {
+      // Backend returned a clean error
+      setStatus_(data.message || "Unknown error from backend.");
+      return;
+    }
+
+    // 5) User-facing status: Writing (even though backend already wrote it,
+    // we show this to match your UX requirement)
+    setStatus_("Writing Google Sheet…");
+
+    // 6) Success: store URL + enable Open button
+    latestSpreadsheetUrl = data.spreadsheetUrl || "";
+    if (latestSpreadsheetUrl) {
+      el.openBtn.disabled = false;
+    }
+
+    // 7) Done
+    const fetched = typeof data.commentsFetched === "number" ? data.commentsFetched : "?";
+    const written = typeof data.commentsWritten === "number" ? data.commentsWritten : "?";
+    setStatus_(`Done. Comments fetched: ${fetched}. Comments written: ${written}.`);
+
+  } catch (err) {
+    // Typical failure causes:
+    // - CORS blocking
+    // - Apps Script error
+    // - Reddit OAuth issue
+    // - Timeout
+    setStatus_(`Failed: ${err.message}`);
+    setDebug_(String(err && err.stack ? err.stack : err));
+  } finally {
+    el.runBtn.disabled = false;
+  }
 }
 
 // Button click: Open spreadsheet
